@@ -7,7 +7,7 @@
         </div>
         <div>
             <rate :rate="rate"></rate>
-            <p v-if="rate>70">(๑•̀ㅂ•́)و✧</p>
+            <!--<p v-if="rate>70">(๑•̀ㅂ•́)و✧</p>-->
         </div>
     </div>
 </template>
@@ -36,7 +36,7 @@ export default {
                         return data.name && (data.name + ': ' + data.value)
                     },
                 },
-                color: ['#0c91ef', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#ddd'],
+                color: ['#67C23A', '#F56C6C', '#E6A23C', '#E6A23C', '#91c7ae', '#ddd'],
                 series: [
                     {
                         name: '访问来源',

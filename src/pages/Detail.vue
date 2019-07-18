@@ -147,25 +147,25 @@ export default {
     methods: {
         searchBase() {
             const params = {
-                "accountNum": 1,
-                "ipLogin": 1,
+                accountNum: 15,
+                ays: 28,
+                chemicalMoc: 0,
+                dbAys: 0,
+                dbSearch: 0,
+                dbSuper: 0,
+                dbTrial: 0,
+                insights: 0,
+                ipLogin: 1,
+                ipreportPro: 0,
+                landscape: 0,
+                npl: 0,
+                pro: 0,
+                renew: "2",
+                ruleIndependentNum: 15,
+                seats: 10,
+                smeBasic: 0,
+                workspace: 0,
                 "accountLimited": 1,
-                "seats": 1,
-                "ruleIndependentNum": 1,
-                "ays": 1,
-                "dbAys": 1,
-                "dbSearch": 1,
-                "dbSuper": 1,
-                "dbTrial": 1,
-                "pro": 1,
-                "landscape": 1,
-                "npl": 1,
-                "smeBasic": 1,
-                "workspace": 1,
-                "chemicalMoc": 1,
-                "ipreportPro": 1,
-                "insights": 1,
-                "renew": 1
             }
             this.rate = 1000
             ajax.wekaBasePrediction(params).then(e => {
@@ -241,25 +241,25 @@ export default {
                 workSpaceCreatedNum: 41,
                 workspace: 0,
             }
-            const ipChange = {
-                ...params,
-                ipLogin: 1000,
-            }
-            const seatsChange = {
-                ...params,
-                seats: 1000,
-            }
-            const loginChange = {
-                ...params,
-                loginNum: params.loginNum * 2,
-            }
+            // const ipChange = {
+            //     ...params,
+            //     ipLogin: 1000,
+            // }
+            // const seatsChange = {
+            //     ...params,
+            //     seats: 1000,
+            // }
+            // const loginChange = {
+            //     ...params,
+            //     loginNum: params.loginNum * 2,
+            // }
             const searchChange = {
                 ...params,
-                searchNum: params.searchNum * 2,
+                searchNum: params.searchNum * 1.1,
             }
             const exportChange = {
                 ...params,
-                exportNum: 10000,
+                exportNum: params.exportNum * 1.1,
             }
             // const ipPromise = ajax.wekaMixedPrediction(ipChange)
             // const seatsPromise = ajax.wekaMixedPrediction(seatsChange)

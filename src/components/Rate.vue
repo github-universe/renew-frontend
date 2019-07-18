@@ -4,7 +4,7 @@
             <span :class="{good:rate>69,bad:rate<50}">{{rate}}%</span>
         </div>
         <img :src="good" v-if="showImg&&rate>69"/>
-        <img :src="bad" v-if="showImg&&rate<50" width="170"/>
+        <img :src="bad" v-if="showImg&&rate<=69" width="170"/>
     </div>
 </template>
 
@@ -52,7 +52,7 @@ export default {
             } else {
                 this.style = {
                     transition: '1s',
-                    height: '220px'
+                    height: '260px'
                 }
             }
         }
