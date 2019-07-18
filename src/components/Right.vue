@@ -1,14 +1,20 @@
 <template>
     <div class="right">
-        <div>
-            <div class="chart" ref="chart">{{company}}</div>
+        <div class="wrap">
+            <div class="chart" id="chart" ref="chart"></div>
         </div>
-        <p>(๑•̀ㅂ•́)و✧</p>
+        <rate :rate="rate"></rate>
+        <p v-if="rate>70">(๑•̀ㅂ•́)و✧</p>
     </div>
 </template>
 
 <script>
 import echarts from 'echarts'
+// import Highcharts from 'highcharts'
+// import config from './config'
+// import Exporting from 'highcharts/modules/exporting'
+
+// Exporting(Highcharts)
 
 export default {
     // model: {
@@ -17,8 +23,50 @@ export default {
     // },
     data() {
         return {
+            rate: 73,
             chart: null,
-            options: null,
+            options: {
+                tooltip: {
+                    trigger: 'item',
+                    formatter({data}) {
+                        return data.name && (data.name + ': ' + data.value)
+                    },
+                },
+                color: ['#0c91ef', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#ddd'],
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: '50%',
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: true,
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '18',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: [
+                            {value: 335, name: '直接访问', selected: true},
+                            {value: 310, name: '邮件营销'},
+                            {value: 234, name: '联盟广告'},
+                            {value: 234, name: 'sdf'},
+                            {value: 135, name: '视频广告'},
+                            {value: 123, name: ''}
+                        ]
+                    }
+                ]
+            },
             // data ----- ----- ----- ----- ----- data⥣ ----- ----- ----- ----- ----- ----- -----
         }
     },
@@ -29,7 +77,18 @@ export default {
         // created ----- ----- ----- ----- ----- created⥣ ----- ----- ----- ----- ----- ----- -----
     },
     mounted() {
-        this.chart = echarts.init(this.$refs.chart) // .setOption(this.options)
+        this.chart = echarts.init(this.$refs.chart).setOption(this.options)
+        // let residue = 100
+        // config.series[0].data.forEach(e => {
+        //     residue -= e.y
+        // })
+        // config.series[0].data.push({
+        //     name: '待提升',
+        //     y: residue,
+        //     sliced: true,
+        // })
+        // log(config.series[0].data[6])
+        // Highcharts.chart(this.$refs.chart, config)
         // mounted ----- ----- ----- ----- ----- mounted⥣ ----- ----- ----- ----- ----- ----- -----
     },
     watch: {
@@ -88,8 +147,8 @@ export default {
     .right {
         flex-grow: 1;
         flex-basis: 600px;
-        > div {
-            padding-top: 75%;
+        > .wrap {
+            padding-top: 65%;
             position: relative;
         }
         .chart {
@@ -97,10 +156,10 @@ export default {
             left: 0;
             width: 100%;
             height: 100%;
-            background: red;
             position: absolute;
         }
         p {
+            text-align: center;
             font-size: 40px;
             margin: 0;
         }

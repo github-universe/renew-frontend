@@ -7,7 +7,7 @@
             ></el-table-column>
             <el-table-column label="签约状态">
                 <template slot-scope="{row}">
-                    <span>{{status[row.renew]}}</span>
+                    <span :class="'renew'+row.renew">{{status[row.renew]}}</span>
                 </template>
             </el-table-column>
             <el-table-column label="操作" fixed="right" width="240">
@@ -175,6 +175,7 @@ export default {
     .table {
         margin-left: auto;
         margin-right: auto;
+        border-bottom: 4px solid #0c91ef;
         th:nth-of-type(1), td:nth-of-type(1) {
             padding-left: 50px;
         }
@@ -220,6 +221,9 @@ export default {
                 margin-left: 2px;
                 line-height: 34px;
             }
+        }
+        .renew2 {
+            color: #0c91ef;
         }
     }
 </style>

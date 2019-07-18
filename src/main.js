@@ -5,12 +5,14 @@ import App from './App.vue'
 import {get, post} from './http'
 import mixin from './mixin'
 import router from './router'
+import Rate from './components/Rate'
 
 Vue.config.productionTip = false
 Vue.prototype.get = get
 Vue.prototype.post = post
 window.LOG = window.log = window.console.log
 
+Vue.component('rate', Rate)
 Vue.use(ElementUI)
 
 new Vue({

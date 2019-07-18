@@ -4,7 +4,7 @@ import axios from 'axios'
 // axios.post(url[, data[, config]])
 
 const instance = axios.create({
-    baseURL: 'http://192.168.14.172:8888',
+    baseURL: 'http://192.168.16.64:8888',
     timeout: 100000,
     headers: {'X-Custom-Header': 'foobar'}
 });
@@ -31,6 +31,13 @@ function getCompanyInfo(id) {
 // Get /company/statistics/{id}
 function getCompanyStatistics(id) {
     return get(`/company/statistics/${id}`)
+}
+
+function wekaBasePrediction(params) {
+    return post('/weka/base/prediction', params)
+}
+function wekaMixedPrediction(params) {
+    return post('/weka/mixed/prediction', params)
 }
 
 // 3.所有公司Id/Name 映射集合
@@ -61,5 +68,7 @@ export {
     getCompanyInfo,
     getCompanyStatistics,
     getCompanyMappings,
-    getWeka
+    getWeka,
+    wekaBasePrediction,
+    wekaMixedPrediction,
 }

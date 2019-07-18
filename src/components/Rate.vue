@@ -1,12 +1,16 @@
 <template>
-    <div class="favorite">
-        <r-table :r-data="list" :collection-ids="collectionIds"></r-table>
+    <div class="rate" v-if="rate<=100">
+        <div>续约率：
+            <span :class="{good:rate>69,bad:rate<50}">{{rate}}%</span>
+        </div>
+        <img :src="good" v-if="showImg&&rate>69"/>
+        <img :src="bad" v-if="showImg&&rate<50" width="170"/>
     </div>
 </template>
 
 <script>
-import Table from '../components/Table'
-import {getCompanyInfo} from '../http'
+import good from '../assets/good.jpg'
+import bad from '../assets/bad.jpg'
 
 export default {
     // model: {
@@ -15,8 +19,8 @@ export default {
     // },
     data() {
         return {
-            collectionIds: [],
-            list: [],
+            bad,
+            good,
             // data ----- ----- ----- ----- ----- data⥣ ----- ----- ----- ----- ----- ----- -----
         }
     },
@@ -24,18 +28,6 @@ export default {
         // vuexmap ----- ----- ----- computed⥣ ----- vuexmap⥥ ----- ----- ----- ----- -----
     },
     created() {
-        const ids = localStorage.getItem('collectionIds')
-        try {
-            this.collectionIds = ids.split('-')
-            this.collectionIds = Array.from(new Set(this.collectionIds))
-        } catch (e) {
-        }
-        this.collectionIds.forEach(id => {
-            getCompanyInfo(id).then(e => {
-                log(e.length)
-                this.list = this.list.concat(e)
-            })
-        })
         // created ----- ----- ----- ----- ----- created⥣ ----- ----- ----- ----- ----- ----- -----
     },
     mounted() {
@@ -52,6 +44,14 @@ export default {
         // methods ----- ----- ----- methods⥣ ----- vuexmap⥥ ----- ----- ----- ----- -----
     },
     props: {
+        showImg: {
+            type: Boolean,
+            default: false,
+        },
+        rate: {
+            type: Number,
+            default: 0,
+        },
         // props ----- ----- ----- using_props⥣----- demo_props⥥ ----- ----- ----- ----- -----
         // ----- demo_props⥥ ----- Array Boolean Function Number Object String
         propsArray: {
@@ -83,13 +83,23 @@ export default {
         },
     },
     components: {
-        'r-table': Table,
         // components ----- ----- ----- ----- components⥣ ----- ----- ----- ----- ----- -----
     },
-    name: 'Favorite',
+    name: 'Rate',
 }
 </script>
 <style lang="scss" scoped>
-    .favorite {
+    .rate {
+        padding: 30px 0 0;
+        font-size: 20px;
+        span {
+            color: #E6A23C;
+        }
+        .good {
+            color: #67C23A;
+        }
+        .bad {
+            color: #F56C6C;
+        }
     }
 </style>

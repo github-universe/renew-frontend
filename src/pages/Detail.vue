@@ -5,8 +5,9 @@
                 <table>
                     <tbody>
                         <tr>
-                            <td>公司名称
-                                <i @click="collect">s</i>
+                            <td style="user-select: none">公司名称
+                                <i @click="remove(company)" v-if="stared" class="heart el-icon-star-on"></i>
+                                <i @click="collect(company)" v-else class="heart el-icon-star-off"></i>
                             </td>
                             <td>{{company.companyName}}</td>
                             <td>账号数量</td>
@@ -83,11 +84,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="rete">续约率：
-                    <span :class="{good:rate>69,bad:rate<50}">{{rate}}%</span>
+                <div>
+                    <el-button @click="searchBase" type="primary">search base</el-button>
+                    <el-button @click="searchMixed" type="primary">search mixed</el-button>
+                    <el-button @click="searchTest" type="primary">search test</el-button>
                 </div>
-                <img :src="good" v-if="rate>69"/>
-                <img :src="bad" v-if="rate<50" width="170"/>
+                <rate :rate="rate" show-img></rate>
             </template>
         </div>
         <right :company="company" v-if="company"></right>
@@ -95,10 +97,8 @@
 </template>
 
 <script>
-import {getCompanyInfo} from '../http'
+import * as ajax from '../http'
 import Right from '../components/Right'
-import good from '../assets/good.jpg'
-import bad from '../assets/bad.jpg'
 
 export default {
     // model: {
@@ -107,9 +107,7 @@ export default {
     // },
     data() {
         return {
-            bad,
-            good,
-            rate: 85,
+            rate: 1000,
             roles: [
                 'ays', 'dbAys', 'dbSearch', 'dbSuper', 'dbTrial', 'pro', 'landscape', 'npl',
                 'smeBasic', 'workspace', 'chemicalMoc', 'ipreportPro', 'insights',
@@ -130,6 +128,9 @@ export default {
         }
     },
     computed: {
+        stared() {
+            return this.collectionIds.includes(this.$route.params.id)
+        },
         // vuexmap ----- ----- ----- computed⥣ ----- vuexmap⥥ ----- ----- ----- ----- -----
     },
     created() {
@@ -151,11 +152,146 @@ export default {
         // watch ----- ----- ----- ----- ----- watch⥣ ----- ----- ----- ----- ----- ----- -----
     },
     methods: {
-        collect(row) {
+        searchBase() {
+            const params = {
+                "accountNum": 1,
+                "ipLogin": 1,
+                "accountLimited": 1,
+                "seats": 1,
+                "ruleIndependentNum": 1,
+                "ays": 1,
+                "dbAys": 1,
+                "dbSearch": 1,
+                "dbSuper": 1,
+                "dbTrial": 1,
+                "pro": 1,
+                "landscape": 1,
+                "npl": 1,
+                "smeBasic": 1,
+                "workspace": 1,
+                "chemicalMoc": 1,
+                "ipreportPro": 1,
+                "insights": 1,
+                "renew": 1
+            }
+            this.rate = 1000
+            ajax.wekaBasePrediction(params).then(e => {
+                this.rate = Math.round(e.data * 100)
+            })
+        },
+        searchMixed() {
+            const params = {
+                accountNum: 15,
+                alertCreatedNum: 0,
+                analysisNum: 157,
+                ays: 28,
+                beginAt: "2018-10-09T16:00:00.000+0000",
+                chemicalMoc: 0,
+                chemicalNum: 0,
+                dbAys: 0,
+                dbSearch: 0,
+                dbSuper: 0,
+                dbTrial: 0,
+                endAt: "2019-10-09T16:00:00.000+0000",
+                exportNum: 11,
+                insights: 0,
+                ipLogin: 1,
+                ipreportPro: 0,
+                landscape: 0,
+                landscapeNum: 0,
+                loginNum: 2658,
+                npl: 0,
+                pro: 0,
+                renew: "2",
+                ruleIndependentNum: 15,
+                searchNum: 17552,
+                seats: 10,
+                smeBasic: 0,
+                viewNum: 1240,
+                workSpaceCreatedNum: 41,
+                workspace: 0,
+            }
+            this.rate = 1000
+            ajax.wekaMixedPrediction(params).then(e => {
+                this.rate = Math.round(e.data * 100)
+            })
+        },
+        searchTest() {
+            const params = {
+                accountNum: 15,
+                alertCreatedNum: 0,
+                analysisNum: 157,
+                ays: 28,
+                beginAt: "2018-10-09T16:00:00.000+0000",
+                chemicalMoc: 0,
+                chemicalNum: 0,
+                dbAys: 0,
+                dbSearch: 0,
+                dbSuper: 0,
+                dbTrial: 0,
+                endAt: "2019-10-09T16:00:00.000+0000",
+                exportNum: 11,
+                insights: 0,
+                ipLogin: 1,
+                ipreportPro: 0,
+                landscape: 0,
+                landscapeNum: 0,
+                loginNum: 2658,
+                npl: 0,
+                pro: 0,
+                renew: "2",
+                ruleIndependentNum: 15,
+                searchNum: 17552,
+                seats: 10,
+                smeBasic: 0,
+                viewNum: 1240,
+                workSpaceCreatedNum: 41,
+                workspace: 0,
+            }
+            this.rate = 1000
+            const ipChange = {
+                ...params,
+                ipLogin: 1000,
+            }
+            const seatsChange = {
+                ...params,
+                seats: 1000,
+            }
+            const loginChange = {
+                ...params,
+                loginNum: params.loginNum * 2,
+            }
+            const searchChange = {
+                ...params,
+                searchNum: params.searchNum * 2,
+            }
+            const exportChange = {
+                ...params,
+                exportNum: 10000,
+            }
+            const ipPromise = ajax.wekaMixedPrediction(ipChange)
+            const seatsPromise = ajax.wekaMixedPrediction(seatsChange)
+            const loginPromise = ajax.wekaMixedPrediction(loginChange)
+            const searchPromise = ajax.wekaMixedPrediction(searchChange)
+            const exportPromise = ajax.wekaMixedPrediction(exportChange)
+            Promise.all([
+                searchPromise, exportPromise
+            ]).then(res => {
+                log(res)
+            })
+        },
+        remove(company) {
+            this.success('取消收藏成功')
+            const i = this.collectionIds.indexOf(company.companyId)
+            this.collectionIds.splice(i, 1)
+            localStorage.setItem('collectionIds', this.collectionIds.join('-'))
+        },
+        collect(company) {
             // this.warn('99090')
             // this.info('99090')
             this.success('收藏成功')
-            this.collectionIds.push(row.companyId)
+            this.collectionIds.push(company.companyId)
+            this.collectionIds = Array.from(new Set(this.collectionIds))
             localStorage.setItem('collectionIds', this.collectionIds.join('-'))
             // this.error('99090')
         },
@@ -163,7 +299,10 @@ export default {
             const {id, company} = this.$route.params
             if (!company || company.companyId !== id) {
                 this.company = null
-                getCompanyInfo(id).then(e => {
+                ajax.getCompanyInfo(id).then(e => {
+                    if (!e.length) {
+                        this.warn('暂无数据')
+                    }
                     this.company = e[0]
                     // const k = Object.keys(e[0])
                     // log(k, k.length, this.keys.length)
@@ -208,7 +347,7 @@ export default {
         },
     },
     components: {
-        Right
+        Right,
         // components ----- ----- ----- ----- components⥣ ----- ----- ----- ----- ----- -----
     },
     name: 'Detail',
@@ -248,18 +387,15 @@ export default {
         tr:nth-of-type(even) {
             background: #f5f5f5;
         }
-        .rete {
-            padding: 30px 0 0;
+        .heart {
+            vertical-align: middle;
+            cursor: pointer;
+            text-decoration: none !important;
+            font-size: 18px;
+            color: #0c91ef;
+        }
+        .el-icon-star-on {
             font-size: 20px;
-            span {
-                color: #E6A23C;
-            }
-            .good {
-                color: #67C23A;
-            }
-            .bad {
-                color: #F56C6C;
-            }
         }
     }
 </style>
