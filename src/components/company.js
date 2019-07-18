@@ -9,7 +9,7 @@ const companyKeys = [
 const statKeys = [
     'companyId', ' companyName', ' searchNum', ' exportNum', ' exportPdfNum',
     'exportXlsNum', ' analysisNum', ' landscapeNum', ' viewNum', ' chemicalNum',
-    'alertCreatedNum', ' workSpaceCreatedNum', ' renew', ' beginAt', ' endAt',
+    'alertCreatedNum', ' workspaceCreatedNum', ' renew', ' beginAt', ' endAt',
 ]
 
 const regex = /[A-Z]/g

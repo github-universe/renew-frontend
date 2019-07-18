@@ -70,7 +70,7 @@ export default {
                 viewNum: '详情查看次数',
                 chemicalNum: '化学检索次数',
                 alertCreatedNum: '邮件提醒次数',
-                workSpaceCreatedNum: '工作空间创建次数',
+                workspaceCreatedNum: '工作空间创建次数',
             },
             // renew: '续约状态', // 0=未签约，1=已签约，2=待签约
             keys: ['companyName', 'accountNum', 'ipLogin', 'timeZoneId', 'seats',
@@ -78,7 +78,7 @@ export default {
                 'dbTrial', 'pro', 'landscape', 'npl', 'smeBasic', 'workspace', 'chemicalMoc',
                 'ipreportPro', 'insights', 'searchNum', 'exportNum', 'exportPdfNum',
                 'exportXlsNum', 'analysisNum', 'landscapeNum', 'viewNum', 'chemicalNum',
-                'alertCreatedNum', 'workSpaceCreatedNum', 'renew', 'beginAt', 'endAt'],
+                'alertCreatedNum', 'workspaceCreatedNum', 'renew', 'beginAt', 'endAt'],
             // data ----- ----- ----- ----- ----- data⥣ ----- ----- ----- ----- ----- ----- -----
         }
     },

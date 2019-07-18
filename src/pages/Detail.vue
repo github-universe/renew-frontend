@@ -77,7 +77,7 @@
                             <td>邮件提醒次数</td>
                             <td>{{company.alertCreatedNum}}</td>
                             <td>工作空间创建次数</td>
-                            <td>{{company.workSpaceCreatedNum}}</td>
+                            <td>{{company.workspaceCreatedNum}}</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -111,7 +111,7 @@ export default {
             ],
             statistics: [
                 'loginNum', 'searchNum', 'exportNum', 'exportPdfNum', 'exportXlsNum', 'analysisNum',
-                'landscapeNum', 'viewNum', 'chemicalNum', 'alertCreatedNum', 'workSpaceCreatedNum'
+                'landscapeNum', 'viewNum', 'chemicalNum', 'alertCreatedNum', 'workspaceCreatedNum'
             ],
             keys: ['companyName', 'accountNum', 'ipLogin', 'timeZoneId', 'seats',
                 'loginNum', 'ruleIndependentNum', 'ays', 'dbAys', 'dbSearch', 'dbSuper',
@@ -205,7 +205,7 @@ export default {
                 seats: 10,
                 smeBasic: 0,
                 viewNum: 1240,
-                workSpaceCreatedNum: 41,
+                workspaceCreatedNum: 41,
                 workspace: 0,
             }
             this.rate = 1000
@@ -242,7 +242,7 @@ export default {
                 seats: 10,
                 smeBasic: 0,
                 viewNum: 1240,
-                workSpaceCreatedNum: 41,
+                workspaceCreatedNum: 41,
                 workspace: 0,
             }
             // const ipChange = {
