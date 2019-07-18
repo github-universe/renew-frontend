@@ -6,7 +6,7 @@
             </div>
         </div>
         <div>
-            <rate :rate="rate"></rate>
+            <!--<rate :rate="rate"></rate>-->
             <!--<p v-if="rate>70">(๑•̀ㅂ•́)و✧</p>-->
         </div>
     </div>
@@ -27,7 +27,7 @@ export default {
     // },
     data() {
         return {
-            rate: 73,
+            rate: 0,
             chart: null,
             options: {
                 tooltip: {
@@ -57,7 +57,7 @@ export default {
                         },
                         labelLine: {
                             normal: {
-                                show: false
+                                show: true
                             }
                         },
                         data: []
@@ -90,7 +90,7 @@ export default {
     },
     watch: {
         rates(rates) {
-            this.options.series[0].data = [{value: this.origin, name: '目前续约率'}, ...rates]
+            this.options.series[0].data = [{value: this.origin, name: '当前续约概率'}, ...rates]
             const {data} = this.options.series[0]
             const sum = data.reduce((a, b) => {
                 return a + b.value
@@ -101,7 +101,6 @@ export default {
                     name: '',
                     value: 100 - sum
                 })
-                log(100 - sum)
                 this.options.color[len] = '#fff'
             }
 

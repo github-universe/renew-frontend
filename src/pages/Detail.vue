@@ -1,9 +1,9 @@
 <template>
     <div class="detail">
         <div style="padding: 20px;">
-            <el-button @click="searchBase" type="primary">search base</el-button>
-            <el-button @click="searchMixed" type="primary">search mixed</el-button>
-            <el-button @click="searchTest" type="primary">search test</el-button>
+            <!--<el-button @click="searchBase" type="primary">search base</el-button>-->
+            <!--<el-button @click="searchMixed" type="primary">search mixed</el-button>-->
+            <!--<el-button @click="searchTest" type="primary">search test</el-button>-->
         </div>
         <div class="left flex">
             <template v-if="company">
@@ -48,9 +48,13 @@
                         <tr>
                             <td>登录次数</td>
                             <td>{{company.loginNum}}</td>
-                            <td>检索次数</td>
+                            <td>检索次数
+                                <a style="color:#F56C6C;font-size:20px;">*</a>
+                            </td>
                             <td>{{company.searchNum}}</td>
-                            <td>导出次数</td>
+                            <td>导出次数
+                                <a style="color:#E6A23C;font-size:20px;">*</a>
+                            </td>
                             <td>{{company.exportNum}}</td>
                         </tr>
                         <tr>
@@ -168,7 +172,7 @@ export default {
                 "accountLimited": 1,
             }
             this.rate = 1000
-            ajax.wekaBasePrediction(params).then(e => {
+            return ajax.wekaBasePrediction(params).then(e => {
                 this.rate = Math.round(e.data * 100)
             })
         },
@@ -205,7 +209,7 @@ export default {
                 workspace: 0,
             }
             this.rate = 1000
-            ajax.wekaMixedPrediction(params).then(e => {
+            return ajax.wekaMixedPrediction(params).then(e => {
                 this.rate = Math.round(e.data * 100)
             })
         },
@@ -255,11 +259,11 @@ export default {
             // }
             const searchChange = {
                 ...params,
-                searchNum: params.searchNum * 1.1,
+                searchNum: params.searchNum * 1.05,
             }
             const exportChange = {
                 ...params,
-                exportNum: params.exportNum * 1.1,
+                exportNum: params.exportNum * 1.05,
             }
             // const ipPromise = ajax.wekaMixedPrediction(ipChange)
             // const seatsPromise = ajax.wekaMixedPrediction(seatsChange)
@@ -269,11 +273,11 @@ export default {
             Promise.all([
                 searchPromise, exportPromise
             ]).then(res => {
-                const names = ['检索次数提升10%', '导出次数提升10%']
+                const names = ['引导客户使用\n提高检索量', '引导客户使用\n提升导出量']
                 this.rates = res.map((e, i) => {
                     const r = Math.round(e.data * 100)
                     return {
-                        value: Math.abs(r - this.rate),
+                        value: r - this.rate > 0 ? (r - this.rate) : 0,
                         name: names[i], selected: true,
                     }
                 })
@@ -309,6 +313,12 @@ export default {
             } else {
                 this.company = company
             }
+            // this.searchMixed().then(() => {
+            //     this.searchTest()
+            // })
+            this.searchBase().then(() => {
+                this.searchTest()
+            })
         },
         stop() {
         },

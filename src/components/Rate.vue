@@ -1,6 +1,6 @@
 <template>
     <div class="rate" :style="style">
-        <div>续约率：
+        <div>当前续约概率：
             <span :class="{good:rate>69,bad:rate<50}">{{rate}}%</span>
         </div>
         <img :src="good" v-if="showImg&&rate>69"/>
@@ -29,6 +29,26 @@ export default {
         // vuexmap ----- ----- ----- computed⥣ ----- vuexmap⥥ ----- ----- ----- ----- -----
     },
     created() {
+        const {rate} = this
+        if (rate > 100) {
+            this.style = null
+        } else if (rate > 69) {
+            this.style = {
+                transition: '1s',
+                height: '145px'
+            }
+            setTimeout(() => {
+                this.style = {
+                    transition: '.6s',
+                    height: '220px'
+                }
+            }, 2000)
+        } else {
+            this.style = {
+                transition: '1s',
+                height: '260px'
+            }
+        }
         // created ----- ----- ----- ----- ----- created⥣ ----- ----- ----- ----- ----- ----- -----
     },
     mounted() {

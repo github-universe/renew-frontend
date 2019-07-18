@@ -1,6 +1,9 @@
 <template>
     <div class="header flex">
-        <router-link to="/">
+        <router-link to="/" class="flex logo">
+            <div>
+                <img :src="logo" width="70"/>
+            </div>
             <h2>续约宝</h2>
         </router-link>
         <i class="grow"></i>
@@ -19,10 +22,10 @@
             <!--@blur="blur"-->
             <!--/>-->
             <button @click="search">搜索</button>
-            <div class="collection pointer" @click="goCollection">
-                <i class="el-icon-collection"></i>
-                <span>我的收藏</span>
-            </div>
+            <!--<div class="collection pointer" @click="goCollection">-->
+            <!--<i class="el-icon-collection"></i>-->
+            <!--<span>我的收藏</span>-->
+            <!--</div>-->
         </div>
         <!--<div class="favor">我的收藏</div>-->
     </div>
@@ -31,6 +34,7 @@
 <script>
 import mapping from '../assets/mapping'
 import * as L from 'list'
+import logo from '../assets/logo.jpg'
 
 export default {
     // model: {
@@ -39,6 +43,7 @@ export default {
     // },
     data() {
         return {
+            logo,
             options: [],
             companyId: '',
             // data ----- ----- ----- ----- ----- data⥣ ----- ----- ----- ----- ----- ----- -----
@@ -130,9 +135,14 @@ export default {
 </script>
 <style lang="scss" scoped>
     .header {
-        width: 800px;
         margin: 0 auto;
-        padding: 12px 0;
+        padding: 12px 50px;
+        .logo {
+            align-items: center;
+            height: 60px;
+            img {
+            }
+        }
         h2 {
             color: rgb(12, 145, 239);
         }

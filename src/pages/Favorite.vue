@@ -32,7 +32,6 @@ export default {
         }
         this.collectionIds.forEach(id => {
             getCompanyInfo(id).then(e => {
-                log(e.length)
                 this.list = this.list.concat(e)
             })
         })
