@@ -1,10 +1,14 @@
 <template>
-    <div class="right">
+    <div class="right flex">
         <div class="wrap">
-            <div class="chart" id="chart" ref="chart"></div>
+            <div>
+                <div class="chart" id="chart" ref="chart"></div>
+            </div>
         </div>
-        <rate :rate="rate"></rate>
-        <p v-if="rate>70">(๑•̀ㅂ•́)و✧</p>
+        <div>
+            <rate :rate="rate"></rate>
+            <p v-if="rate>70">(๑•̀ㅂ•́)و✧</p>
+        </div>
     </div>
 </template>
 
@@ -56,14 +60,7 @@ export default {
                                 show: false
                             }
                         },
-                        data: [
-                            {value: 335, name: '直接访问', selected: true},
-                            {value: 310, name: '邮件营销'},
-                            {value: 234, name: '联盟广告'},
-                            {value: 234, name: 'sdf'},
-                            {value: 135, name: '视频广告'},
-                            {value: 123, name: ''}
-                        ]
+                        data: []
                     }
                 ]
             },
@@ -77,7 +74,7 @@ export default {
         // created ----- ----- ----- ----- ----- created⥣ ----- ----- ----- ----- ----- ----- -----
     },
     mounted() {
-        this.chart = echarts.init(this.$refs.chart).setOption(this.options)
+        this.chart = echarts.init(this.$refs.chart) //.setOption(this.options)
         // let residue = 100
         // config.series[0].data.forEach(e => {
         //     residue -= e.y
@@ -92,6 +89,24 @@ export default {
         // mounted ----- ----- ----- ----- ----- mounted⥣ ----- ----- ----- ----- ----- ----- -----
     },
     watch: {
+        rates(rates) {
+            this.options.series[0].data = [{value: this.origin, name: '目前续约率'}, ...rates]
+            const {data} = this.options.series[0]
+            const sum = data.reduce((a, b) => {
+                return a + b.value
+            }, 0)
+            const len = data.length
+            if (100 - sum > 0) {
+                this.options.series[0].data.push({
+                    name: '',
+                    value: 100 - sum
+                })
+                log(100 - sum)
+                this.options.color[len] = '#fff'
+            }
+
+            this.chart.setOption(this.options)
+        },
         // watch ----- ----- ----- ----- ----- watch⥣ ----- ----- ----- ----- ----- ----- -----
     },
     methods: {
@@ -106,6 +121,15 @@ export default {
             type: Object,
             default() {
             },
+        },
+        rates: {
+            type: Array,
+            default() {
+            },
+        },
+        origin: {
+            type: Number,
+            default: 0,
         },
         // props ----- ----- ----- using_props⥣----- demo_props⥥ ----- ----- ----- ----- -----
         // ----- demo_props⥥ ----- Array Boolean Function Number Object String
@@ -145,11 +169,15 @@ export default {
 </script>
 <style lang="scss" scoped>
     .right {
-        flex-grow: 1;
-        flex-basis: 600px;
+        justify-content: center;
         > .wrap {
-            padding-top: 65%;
+            width: 800px;
             position: relative;
+            margin-right: 40px;
+            > div {
+                padding-top: 65%;
+                position: relative;
+            }
         }
         .chart {
             top: 0;

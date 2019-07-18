@@ -1,5 +1,5 @@
 <template>
-    <div class="rate" v-if="rate<=100">
+    <div class="rate" :style="style">
         <div>续约率：
             <span :class="{good:rate>69,bad:rate<50}">{{rate}}%</span>
         </div>
@@ -19,6 +19,7 @@ export default {
     // },
     data() {
         return {
+            style: null,
             bad,
             good,
             // data ----- ----- ----- ----- ----- data⥣ ----- ----- ----- ----- ----- ----- -----
@@ -34,6 +35,27 @@ export default {
         // mounted ----- ----- ----- ----- ----- mounted⥣ ----- ----- ----- ----- ----- ----- -----
     },
     watch: {
+        rate(rate) {
+            if (rate > 100) {
+                this.style = null
+            } else if (rate > 69) {
+                this.style = {
+                    transition: '1s',
+                    height: '145px'
+                }
+                setTimeout(() => {
+                    this.style = {
+                        transition: '.6s',
+                        height: '220px'
+                    }
+                }, 2000)
+            } else {
+                this.style = {
+                    transition: '1s',
+                    height: '220px'
+                }
+            }
+        }
         // watch ----- ----- ----- ----- ----- watch⥣ ----- ----- ----- ----- ----- ----- -----
     },
     methods: {
@@ -90,8 +112,15 @@ export default {
 </script>
 <style lang="scss" scoped>
     .rate {
-        padding: 30px 0 0;
+        height: 0;
+        overflow: hidden;
+        padding: 20px 0 0;
         font-size: 20px;
+        transition: 0s;
+        &.active {
+            height: 200px;
+            transition: 1s;
+        }
         span {
             color: #E6A23C;
         }

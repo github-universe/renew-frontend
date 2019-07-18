@@ -1,6 +1,11 @@
 <template>
-    <div class="detail flex">
-        <div class="left">
+    <div class="detail">
+        <div style="padding: 20px;">
+            <el-button @click="searchBase" type="primary">search base</el-button>
+            <el-button @click="searchMixed" type="primary">search mixed</el-button>
+            <el-button @click="searchTest" type="primary">search test</el-button>
+        </div>
+        <div class="left flex">
             <template v-if="company">
                 <table>
                     <tbody>
@@ -10,16 +15,14 @@
                                 <i @click="collect(company)" v-else class="heart el-icon-star-off"></i>
                             </td>
                             <td>{{company.companyName}}</td>
-                            <td>账号数量</td>
-                            <td>{{company.accountNum}}</td>
-                        </tr>
-                        <tr>
                             <td>开始时间</td>
                             <td>{{company.beginAt}}</td>
                             <td>结束时间</td>
                             <td>{{company.endAt}}</td>
                         </tr>
                         <tr>
+                            <td>账号数量</td>
+                            <td>{{company.accountNum}}</td>
                             <td>IP登录数</td>
                             <td>{{company.ipLogin}}</td>
                             <td>时区</td>
@@ -30,10 +33,12 @@
                             <td>{{company.seats}}</td>
                             <td>独立规则</td>
                             <td>{{company.ruleIndependentNum}}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>公司拥有角色</td>
-                            <td colspan="3" style="max-width:450px">
+                            <td colspan="5" style="max-width:450px">
                                 <span v-for="key in roles" :key="key">
                                     <span>{{key}}:</span>
                                     <i>{{company[key]}}</i>
@@ -45,23 +50,15 @@
                             <td>{{company.loginNum}}</td>
                             <td>检索次数</td>
                             <td>{{company.searchNum}}</td>
-                        </tr>
-                        <tr>
                             <td>导出次数</td>
                             <td>{{company.exportNum}}</td>
-                            <td>导出PDF次数</td>
-                            <td>{{company.exportPdfNum}}</td>
                         </tr>
                         <tr>
+                            <td>导出PDF次数</td>
+                            <td>{{company.exportPdfNum}}</td>
                             <td>导出excel次数</td>
                             <td>{{company.exportXlsNum}}</td>
                             <td>分析次数</td>
-                            <td>{{company.analysisNum}}</td>
-                        </tr>
-                        <tr>
-                            <td>次数</td>
-                            <td>{{company.exportXlsNum}}</td>
-                            <td>次数</td>
                             <td>{{company.analysisNum}}</td>
                         </tr>
                         <tr>
@@ -69,14 +66,12 @@
                             <td>{{company.landscapeNum}}</td>
                             <td>详情查看次数</td>
                             <td>{{company.viewNum}}</td>
-                        </tr>
-                        <tr>
                             <td>化学检索次数</td>
                             <td>{{company.chemicalNum}}</td>
-                            <td>邮件提醒次数</td>
-                            <td>{{company.alertCreatedNum}}</td>
                         </tr>
                         <tr>
+                            <td>邮件提醒次数</td>
+                            <td>{{company.alertCreatedNum}}</td>
                             <td>工作空间创建次数</td>
                             <td>{{company.workSpaceCreatedNum}}</td>
                             <td></td>
@@ -84,15 +79,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <div>
-                    <el-button @click="searchBase" type="primary">search base</el-button>
-                    <el-button @click="searchMixed" type="primary">search mixed</el-button>
-                    <el-button @click="searchTest" type="primary">search test</el-button>
+                <div style="width:180px">
+                    <rate :rate="rate" show-img></rate>
                 </div>
-                <rate :rate="rate" show-img></rate>
             </template>
         </div>
-        <right :company="company" v-if="company"></right>
+        <right :company="company" v-if="company" :rates="rates" :origin="rate"></right>
     </div>
 </template>
 
@@ -108,6 +100,7 @@ export default {
     data() {
         return {
             rate: 1000,
+            rates: [],
             roles: [
                 'ays', 'dbAys', 'dbSearch', 'dbSuper', 'dbTrial', 'pro', 'landscape', 'npl',
                 'smeBasic', 'workspace', 'chemicalMoc', 'ipreportPro', 'insights',
@@ -248,7 +241,6 @@ export default {
                 workSpaceCreatedNum: 41,
                 workspace: 0,
             }
-            this.rate = 1000
             const ipChange = {
                 ...params,
                 ipLogin: 1000,
@@ -269,15 +261,22 @@ export default {
                 ...params,
                 exportNum: 10000,
             }
-            const ipPromise = ajax.wekaMixedPrediction(ipChange)
-            const seatsPromise = ajax.wekaMixedPrediction(seatsChange)
-            const loginPromise = ajax.wekaMixedPrediction(loginChange)
+            // const ipPromise = ajax.wekaMixedPrediction(ipChange)
+            // const seatsPromise = ajax.wekaMixedPrediction(seatsChange)
+            // const loginPromise = ajax.wekaMixedPrediction(loginChange)
             const searchPromise = ajax.wekaMixedPrediction(searchChange)
             const exportPromise = ajax.wekaMixedPrediction(exportChange)
             Promise.all([
                 searchPromise, exportPromise
             ]).then(res => {
-                log(res)
+                const names = ['检索次数提升10%', '导出次数提升10%']
+                this.rates = res.map((e, i) => {
+                    const r = Math.round(e.data * 100)
+                    return {
+                        value: Math.abs(r - this.rate),
+                        name: names[i], selected: true,
+                    }
+                })
             })
         },
         remove(company) {
@@ -358,7 +357,8 @@ export default {
         align-items: flex-start;
         padding: 0 30px;
         table {
-            width: 100%;
+            flex: 1;
+            margin-right: 30px;
         }
         .left {
             padding-right: 30px;
