@@ -24,15 +24,23 @@ export default {
         // vuexmap ----- ----- ----- computed⥣ ----- vuexmap⥥ ----- ----- ----- ----- -----
     },
     created() {
-        const ids = localStorage.getItem('collectionIds')
+        let ids = localStorage.getItem('collectionIds')
         try {
+            ids = ids.replace(/(\-)+/g, '-')
             this.collectionIds = ids.split('-')
             this.collectionIds = Array.from(new Set(this.collectionIds))
         } catch (e) {
         }
-        this.collectionIds.forEach(id => {
-            getCompanyInfo(id).then(e => {
-                this.list = this.list.concat(e)
+        const len = this.collectionIds.length
+        const list = Array(len).fill(undefined)
+        this.collectionIds.forEach((id, index) => {
+            id && getCompanyInfo(id).then(e => {
+                list[index] = e
+                if (list.every(e => e)) {
+                    list.reduceRight((a, b) => {
+                        this.list = this.list.concat(b)
+                    }, undefined)
+                }
             })
         })
         // created ----- ----- ----- ----- ----- created⥣ ----- ----- ----- ----- ----- ----- -----

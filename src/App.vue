@@ -38,7 +38,6 @@ export default {
         //     c.fillText('宝', 20, 60, 50);
         //     if (e) {
         //     }
-        //     log(e)
         // },
     },
 }

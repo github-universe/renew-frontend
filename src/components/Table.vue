@@ -22,7 +22,7 @@
                     </div>
                     <div @click="removeCollect(row)" class="pointer" v-else>
                         <span class="el-icon-collection remove"></span>
-                        <span>取消收藏</span>
+                        <span>取消收藏{{row.sort}}</span>
                     </div>
                 </template>
             </el-table-column>

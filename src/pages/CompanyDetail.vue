@@ -2,7 +2,6 @@
     <div class="detail">
         <div style="padding: 20px;">
             <!--<el-button @click="searchBase" type="primary">search base</el-button>-->
-            <!--<el-button @click="searchMixed" type="primary">search mixed</el-button>-->
             <!--<el-button @click="searchTest" type="primary">search test</el-button>-->
         </div>
         <div class="left flex">
@@ -77,7 +76,7 @@
                             <td>邮件提醒次数</td>
                             <td>{{company.alertCreatedNum}}</td>
                             <td>工作空间创建次数</td>
-                            <td>{{company.workspaceCreatedNum}}</td>
+                            <td>{{company.workSpaceCreatedNum}}</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -111,7 +110,7 @@ export default {
             ],
             statistics: [
                 'loginNum', 'searchNum', 'exportNum', 'exportPdfNum', 'exportXlsNum', 'analysisNum',
-                'landscapeNum', 'viewNum', 'chemicalNum', 'alertCreatedNum', 'workspaceCreatedNum'
+                'landscapeNum', 'viewNum', 'chemicalNum', 'alertCreatedNum', 'workSpaceCreatedNum'
             ],
             keys: ['companyName', 'accountNum', 'ipLogin', 'timeZoneId', 'seats',
                 'loginNum', 'ruleIndependentNum', 'ays', 'dbAys', 'dbSearch', 'dbSuper',
@@ -150,152 +149,13 @@ export default {
     },
     methods: {
         searchBase() {
-            const params = {
-                accountNum: 15,
-                ays: 28,
-                chemicalMoc: 0,
-                dbAys: 0,
-                dbSearch: 0,
-                dbSuper: 0,
-                dbTrial: 0,
-                insights: 0,
-                ipLogin: 1,
-                ipreportPro: 0,
-                landscape: 0,
-                npl: 0,
-                pro: 0,
-                renew: "2",
-                ruleIndependentNum: 15,
-                seats: 10,
-                smeBasic: 0,
-                workspace: 0,
-                "accountLimited": 1,
-            }
-            this.rate = 1000
-            return ajax.wekaBasePrediction(params).then(e => {
-                this.rate = Math.round(e.data * 100)
-            })
-        },
-        searchMixed() {
-            const params = {
-                "companyId": "166ba19d51b34e9db31be212741ec701",
-                "companyName": "宁波继峰汽车零部件股份有限公司",
-                "accountNum": 6,
-                "ipLogin": 0,
-                "timeZoneId": "Asia/Shanghai",
-                "seats": 0,
-                "loginNum": 7,
-                "ruleIndependentNum": 6,
-                "ays": 2,
-                "dbAys": 0,
-                "dbSearch": 0,
-                "dbSuper": 0,
-                "dbTrial": 0,
-                "pro": 0,
-                "landscape": 12,
-                "npl": 12,
-                "smeBasic": 0,
-                "workspace": 0,
-                "chemicalMoc": 0,
-                "ipreportPro": 0,
-                "insights": 0,
-                "searchNum": 1,
-                "exportNum": 0,
-                "exportPdfNum": 0,
-                "exportXlsNum": 0,
-                "analysisNum": 0,
-                "landscapeNum": 0,
-                "viewNum": 0,
-                "chemicalNum": 0,
-                "alertCreatedNum": 0,
-                "workspaceCreatedNum": 0,
-                "renew": 2,
-                "beginAt": "2019-03-06T00:00:00.000+0000",
-                "endAt": "2020-03-06T00:00:00.000+0000"
-            }
-            this.rate = 1000
-            log(this.company.renew)
-            return ajax.wekaMixedPrediction(this.company).then(e => {
-                this.rate = Math.round(e.data * 100)
+            return this.get('https://www.easy-mock.com/mock/5d309f806fc90610f4b1562b/renew/base').then(e => {
+                this.rate = Math.round(e.data.rate * 100)
             })
         },
         searchTest() {
-            const params = {...this.company}
-            var a = {
-                "companyId": "166ba19d51b34e9db31be212741ec701",
-                "companyName": "宁波继峰汽车零部件股份有限公司",
-                "accountNum": 6,
-                "ipLogin": 0,
-                "timeZoneId": "Asia/Shanghai",
-                "seats": 0,
-                "loginNum": 7,
-                "ruleIndependentNum": 6,
-                "ays": 2,
-                "dbAys": 0,
-                "dbSearch": 0,
-                "dbSuper": 0,
-                "dbTrial": 0,
-                "pro": 0,
-                "landscape": 12,
-                "npl": 12,
-                "smeBasic": 0,
-                "workspace": 0,
-                "chemicalMoc": 0,
-                "ipreportPro": 0,
-                "insights": 0,
-                "searchNum": 1,
-                "exportNum": 0,
-                "exportPdfNum": 0,
-                "exportXlsNum": 0,
-                "analysisNum": 0,
-                "landscapeNum": 0,
-                "viewNum": 0,
-                "chemicalNum": 0,
-                "alertCreatedNum": 0,
-                "workspaceCreatedNum": 0,
-                "renew": 2,
-                "beginAt": "2019-03-06T00:00:00.000+0000",
-                "endAt": "2020-03-06T00:00:00.000+0000"
-            }
-
-            // const ipChange = {
-            //     ...params,
-            //     ipLogin: 1000,
-            // }
-            // const seatsChange = {
-            //     ...params,
-            //     seats: 1000,
-            // }
-            // const loginChange = {
-            //     ...params,
-            //     loginNum: params.loginNum * 2,
-            // }
-            const
-                searchChange = {
-                    ...params,
-                    viewNum: Math.round(params.viewNum + 55),
-                }
-            const exportChange = {
-                ...params,
-                searchNum: Math.round(params.searchNum + 51),
-            }
-            // const ipPromise = ajax.wekaMixedPrediction(ipChange)
-            // const seatsPromise = ajax.wekaMixedPrediction(seatsChange)
-            // const loginPromise = ajax.wekaMixedPrediction(loginChange)
-            const searchPromise = ajax.wekaMixedPrediction(searchChange)
-            const exportPromise = ajax.wekaMixedPrediction(exportChange)
-            Promise.all([
-                searchPromise, exportPromise
-            ]).then(res => {
-                const names = ['引导客户使用\n提高检索量', '引导客户使用\n提升导出量']
-                this.rates = res.map((e, i) => {
-                    const r = Math.round(e.data * 100)
-                    return {
-                        value: r - this.rate > 0 ? (r - this.rate) : 0,
-                        name: names[i], selected: true,
-                    }
-                })
-                log(this.rates)
+            this.get('https://www.easy-mock.com/mock/5d309f806fc90610f4b1562b/renew/test').then(e => {
+                this.rates = e.data.data
             })
         },
         remove(company) {
@@ -305,38 +165,19 @@ export default {
             localStorage.setItem('collectionIds', this.collectionIds.join('-'))
         },
         collect(company) {
-            // this.warn('99090')
-            // this.info('99090')
             this.success('收藏成功')
             this.collectionIds.push(company.companyId)
             this.collectionIds = Array.from(new Set(this.collectionIds))
             localStorage.setItem('collectionIds', this.collectionIds.join('-'))
-            // this.error('99090')
         },
         searchCompany() {
-            const {id, company} = this.$route.params
-            if (!company || company.companyId !== id) {
-                this.company = null
-                ajax.getCompanyInfo(id).then(e => {
-                    if (!e.length) {
-                        this.warn('暂无数据')
-                    }
-                    log(123, e)
-                    this.company = e[0]
-                    this.searchMixed().then(() => {
-                        this.searchTest()
-                    })
-                    // const k = Object.keys(e[0])
-                })
-            } else {
-                this.company = company
-                this.searchMixed().then(() => {
+            this.get('https://www.easy-mock.com/mock/5d309f806fc90610f4b1562b/renew/company').then(e => {
+                log('detail', e.data)
+                this.company = e.data
+                this.searchBase().then(() => {
                     this.searchTest()
                 })
-            }
-            // this.searchMixed().then(() => {
-            //     this.searchTest()
-            // })
+            })
         },
         stop() {
         },
@@ -377,7 +218,7 @@ export default {
         Right,
         // components ----- ----- ----- ----- components⥣ ----- ----- ----- ----- ----- -----
     },
-    name: 'Detail',
+    name: 'CompanyDetail',
 }
 </script>
 <style lang="scss" scoped>

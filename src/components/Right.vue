@@ -84,7 +84,6 @@ export default {
         //     y: residue,
         //     sliced: true,
         // })
-        // log(config.series[0].data[6])
         // Highcharts.chart(this.$refs.chart, config)
         // mounted ----- ----- ----- ----- ----- mounted⥣ ----- ----- ----- ----- ----- ----- -----
     },
